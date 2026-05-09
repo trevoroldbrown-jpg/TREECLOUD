@@ -42,7 +42,7 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            max-width: 800px;
+            max-width: 1000px;
             width: 90%;
             animation: fadeIn 1.2s ease-out;
             margin: 2rem;
@@ -70,7 +70,7 @@
 
         .data-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
             text-align: left;
             margin-top: 2rem;
@@ -82,42 +82,84 @@
             border-radius: 1rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .card:hover {
             background: rgba(255, 255, 255, 0.08);
             transform: translateY(-5px);
             border-color: rgba(129, 140, 248, 0.4);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
         }
 
-        .card-category {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #818cf8;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.8rem;
         }
 
         .card-title {
-            font-size: 1rem;
-            font-weight: 400;
-            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
             color: #f8fafc;
-            line-height: 1.4;
+            line-height: 1.3;
+            word-break: break-word;
+        }
+
+        .card-stars {
+            font-size: 0.85rem;
+            color: #fbbf24;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+            background: rgba(251, 191, 36, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 1rem;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .card-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #a855f7;
+            background: rgba(168, 85, 247, 0.1);
+            padding: 0.3rem 0.6rem;
+            border-radius: 0.5rem;
+            display: inline-block;
+            font-weight: 600;
+            align-self: flex-start;
         }
 
         .card-link {
             font-size: 0.85rem;
-            color: #c084fc;
+            color: #818cf8;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            font-weight: 600;
+            transition: color 0.2s;
         }
 
         .card-link:hover {
-            text-decoration: underline;
+            color: #c084fc;
         }
 
         .last-updated {
@@ -141,13 +183,12 @@
 </head>
 <body>
     <div class="container">
-        <div class="status-badge">Watcher Agent: Online</div>
-        <h1>Treecloud Insights</h1>
-        <p class="subtitle">Automated intelligence gathering from the frontier of technology.</p>
+        <div class="status-badge">Watcher Agent: Intelligence Mode</div>
+        <h1>Treecloud Inspiration</h1>
+        <p class="subtitle">Curated open-source intelligence from GitHub Trending.</p>
         
         <div id="data-container" class="data-grid">
-            <!-- Data cards will be injected here -->
-            <p style="grid-column: 1/-1; text-align: center; color: #64748b;">Fetching latest data...</p>
+            <p style="grid-column: 1/-1; text-align: center; color: #64748b;">Fetching latest intelligence...</p>
         </div>
 
         <div id="update-time" class="last-updated"></div>
@@ -156,7 +197,8 @@
     <script>
         async function loadData() {
             try {
-                const response = await fetch('data.json');
+                // Ensure we don't hit the browser cache too aggressively
+                const response = await fetch('data.json?t=' + new Date().getTime());
                 if (!response.ok) throw new Error('Data not found');
                 const data = await response.json();
                 
@@ -169,22 +211,30 @@
                     const card = document.createElement('div');
                     card.className = 'card';
                     card.innerHTML = `
-                        <div class="card-category">${item.category}</div>
-                        <div class="card-title">${item.title}</div>
-                        <a href="${item.link}" target="_blank" class="card-link">Read More →</a>
+                        <div>
+                            <div class="card-header">
+                                <div class="card-title">${item.title}</div>
+                                <div class="card-stars">⭐ ${item.stars}</div>
+                            </div>
+                            <div class="card-desc">${item.description}</div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-tag">${item.why_interesting}</div>
+                            <a href="${item.link}" target="_blank" class="card-link">Explore Code →</a>
+                        </div>
                     `;
                     container.appendChild(card);
                 });
                 
                 const date = new Date(data.last_updated);
-                updateTime.textContent = `Last synchronized: ${date.toLocaleString()}`;
+                updateTime.textContent = `Intelligence gathered: ${date.toLocaleString()}`;
                 
             } catch (error) {
                 console.error('Error:', error);
                 document.getElementById('data-container').innerHTML = `
                     <div style="grid-column: 1/-1; text-align: center; padding: 2rem; background: rgba(239, 68, 68, 0.1); border-radius: 1rem; border: 1px solid rgba(239, 68, 68, 0.3);">
-                        <p style="color: #f87171;">No data found. The agent needs to run first.</p>
-                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">Run 'python watcher.py' to generate the initial data.</p>
+                        <p style="color: #f87171;">Awaiting first intelligence sweep.</p>
+                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">The GitHub Action needs to run with the new scraper logic.</p>
                     </div>
                 `;
             }
