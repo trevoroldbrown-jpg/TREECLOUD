@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Treecloud | Initialization</title>
+    <title>Treecloud Hub | Interactive Intelligence</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
@@ -13,6 +13,7 @@
             --secondary: #a855f7;
             --accent: #ec4899;
             --bg: #0f172a;
+            --panel-bg: rgba(255, 255, 255, 0.05);
             --text: #f8fafc;
         }
 
@@ -27,30 +28,33 @@
             background-color: var(--bg);
             background: radial-gradient(circle at top right, #1e293b, #0f172a);
             color: var(--text);
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
-            align-items: center;
             justify-content: center;
-            overflow: hidden;
+            padding: 2rem;
+            /* Removed overflow: hidden so it can scroll */
         }
 
         .container {
-            text-align: center;
-            padding: 3rem;
-            border-radius: 2rem;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            max-width: 1000px;
-            width: 90%;
+            width: 100%;
+            max-width: 1200px;
             animation: fadeIn 1.2s ease-out;
-            margin: 2rem;
         }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* HEADER & SEARCH */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         h1 {
@@ -62,22 +66,81 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .subtitle {
-            font-size: 1.1rem;
-            color: #94a3b8;
-            margin-bottom: 2rem;
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            max-width: 600px;
+            margin: 2rem auto 0;
         }
 
+        .search-input {
+            flex-grow: 1;
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            background: rgba(15, 23, 42, 0.6);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #a855f7;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 1rem;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .tab {
+            padding: 0.8rem 1.5rem;
+            background: var(--panel-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 2rem;
+            cursor: pointer;
+            color: #94a3b8;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            background: rgba(129, 140, 248, 0.2);
+            color: #818cf8;
+            border-color: #818cf8;
+        }
+
+        /* GRID & CARDS */
         .data-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 1.5rem;
-            text-align: left;
-            margin-top: 2rem;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--panel-bg);
             padding: 1.5rem;
             border-radius: 1rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -113,9 +176,6 @@
             font-size: 0.85rem;
             color: #fbbf24;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.2rem;
             background: rgba(251, 191, 36, 0.1);
             padding: 0.2rem 0.5rem;
             border-radius: 1rem;
@@ -129,118 +189,300 @@
             flex-grow: 1;
         }
 
-        .card-footer {
+        .card-actions {
             display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
+            gap: 0.5rem;
+            margin-top: 1rem;
         }
 
-        .card-tag {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #a855f7;
-            background: rgba(168, 85, 247, 0.1);
-            padding: 0.3rem 0.6rem;
+        .btn-small {
+            flex: 1;
+            padding: 0.6rem;
             border-radius: 0.5rem;
-            display: inline-block;
-            font-weight: 600;
-            align-self: flex-start;
-        }
-
-        .card-link {
+            border: 1px solid rgba(255,255,255,0.1);
+            background: transparent;
+            color: white;
+            cursor: pointer;
             font-size: 0.85rem;
-            color: #818cf8;
-            text-decoration: none;
-            display: inline-flex;
+            transition: all 0.2s;
+        }
+        
+        .btn-small:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .btn-fav.active {
+            background: rgba(251, 191, 36, 0.2);
+            border-color: #fbbf24;
+            color: #fbbf24;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
             align-items: center;
-            font-weight: 600;
-            transition: color 0.2s;
+            z-index: 1000;
+            padding: 2rem;
         }
 
-        .card-link:hover {
-            color: #c084fc;
+        .modal {
+            background: #1e293b;
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 1.5rem;
+            width: 100%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
         }
 
-        .last-updated {
-            font-size: 0.8rem;
-            color: #64748b;
-            margin-top: 2rem;
+        .close-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
 
-        .status-badge {
-            display: inline-block;
-            padding: 0.4rem 0.8rem;
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            border-radius: 2rem;
-            color: #4ade80;
-            font-weight: 500;
-            font-size: 0.8rem;
-            margin-bottom: 1rem;
+        .agent-prompt-box {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px dashed #818cf8;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            text-align: left;
         }
+
+        .agent-prompt-box h3 { color: #818cf8; margin-bottom: 0.5rem;}
+        .agent-prompt-box p { color: #cbd5e1; font-size: 0.9rem; margin-bottom: 1rem;}
+        
+        .code-snippet {
+            background: rgba(0,0,0,0.3);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: monospace;
+            color: #a855f7;
+            font-size: 0.85rem;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            margin-top: 1rem;
+            background: #818cf8;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
+
     <div class="container">
-        <div class="status-badge">Watcher Agent: Intelligence Mode</div>
-        <h1>Treecloud Inspiration</h1>
-        <p class="subtitle">Curated open-source intelligence from GitHub Trending.</p>
-        
-        <div id="data-container" class="data-grid">
-            <p style="grid-column: 1/-1; text-align: center; color: #64748b;">Fetching latest intelligence...</p>
+        <div class="header">
+            <h1>Treecloud Hub</h1>
+            <p style="color: #94a3b8;">Discover, save, and analyze the world's best open-source projects.</p>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search GitHub (e.g. 'React Agents')...">
+                <button class="btn btn-primary" onclick="performLiveSearch()">Search Live</button>
+            </div>
         </div>
 
-        <div id="update-time" class="last-updated"></div>
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('feed', this)">Curated Feed</div>
+            <div class="tab" onclick="switchTab('favorites', this)">My Favorites ⭐</div>
+            <div class="tab" id="search-tab" style="display: none;" onclick="switchTab('search', this)">Search Results</div>
+        </div>
+
+        <div id="data-container" class="data-grid">
+            <!-- Cards injected here -->
+        </div>
+    </div>
+
+    <!-- Deep Dive Modal -->
+    <div class="modal-overlay" id="deepDiveModal">
+        <div class="modal">
+            <button class="close-btn" onclick="closeModal()">×</button>
+            <h2 id="modalTitle" style="margin-bottom: 1.5rem;">Deep Dive</h2>
+            
+            <div class="agent-prompt-box">
+                <h3>🤖 Ask Antigravity</h3>
+                <p>Because this dashboard is static, it cannot securely hold an AI key. Click below to copy a prompt, then paste it back into your chat with me to get a full code review!</p>
+                <div class="code-snippet" id="promptText">
+                    Antigravity, please review this repository for me: [URL]. Walk me through how it works, what makes it special, and provide a step-by-step guide on how I can interact with it.
+                </div>
+                <button class="copy-btn" onclick="copyPrompt()">Copy Prompt to Clipboard</button>
+            </div>
+
+            <h3 style="color:#94a3b8; margin-bottom: 1rem;">Repository Status:</h3>
+            <p id="modalDesc" style="color: #cbd5e1; line-height: 1.6;"></p>
+            <br>
+            <a id="modalLink" href="#" target="_blank" style="color: #818cf8;">View Full Repository on GitHub →</a>
+        </div>
     </div>
 
     <script>
-        async function loadData() {
+        // State
+        let currentData = [];
+        let favorites = JSON.parse(localStorage.getItem('treecloud_favs')) || [];
+
+        // Initialization
+        async function init() {
             try {
-                // Ensure we don't hit the browser cache too aggressively
+                // Load the curated feed generated by the Python Agent
                 const response = await fetch('data.json?t=' + new Date().getTime());
-                if (!response.ok) throw new Error('Data not found');
-                const data = await response.json();
-                
-                const container = document.getElementById('data-container');
-                const updateTime = document.getElementById('update-time');
-                
-                container.innerHTML = '';
-                
-                data.items.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'card';
-                    card.innerHTML = `
-                        <div>
-                            <div class="card-header">
-                                <div class="card-title">${item.title}</div>
-                                <div class="card-stars">⭐ ${item.stars}</div>
-                            </div>
-                            <div class="card-desc">${item.description}</div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="card-tag">${item.why_interesting}</div>
-                            <a href="${item.link}" target="_blank" class="card-link">Explore Code →</a>
-                        </div>
-                    `;
-                    container.appendChild(card);
-                });
-                
-                const date = new Date(data.last_updated);
-                updateTime.textContent = `Intelligence gathered: ${date.toLocaleString()}`;
-                
-            } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('data-container').innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: 2rem; background: rgba(239, 68, 68, 0.1); border-radius: 1rem; border: 1px solid rgba(239, 68, 68, 0.3);">
-                        <p style="color: #f87171;">Awaiting first intelligence sweep.</p>
-                        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">The GitHub Action needs to run with the new scraper logic.</p>
-                    </div>
-                `;
+                if (response.ok) {
+                    const data = await response.json();
+                    currentData = data.items;
+                    renderCards(currentData);
+                } else {
+                    document.getElementById('data-container').innerHTML = '<p style="text-align:center; grid-column:1/-1;">Feed empty. Run the Python agent first.</p>';
+                }
+            } catch (e) {
+                console.error("Error loading feed:", e);
             }
         }
 
-        loadData();
+        // Live Search hitting GitHub API directly
+        async function performLiveSearch() {
+            const query = document.getElementById('searchInput').value;
+            if (!query) return;
+
+            const container = document.getElementById('data-container');
+            container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">Searching GitHub live...</p>';
+            
+            document.getElementById('search-tab').style.display = 'block';
+            switchTab('search', document.getElementById('search-tab'));
+
+            try {
+                const res = await fetch(`https://api.github.com/search/repositories?q=${encodeURIComponent(query)}&sort=stars&order=desc`);
+                const data = await res.json();
+                
+                const searchResults = data.items.slice(0, 12).map(item => ({
+                    title: item.full_name,
+                    link: item.html_url,
+                    description: item.description || 'No description',
+                    stars: item.stargazers_count,
+                    why_interesting: "Live Search Result"
+                }));
+                
+                currentData = searchResults;
+                renderCards(searchResults);
+            } catch (e) {
+                container.innerHTML = '<p style="text-align:center; color:red; grid-column:1/-1;">Search failed. Rate limit exceeded or offline.</p>';
+            }
+        }
+
+        // Render Cards UI
+        function renderCards(items) {
+            const container = document.getElementById('data-container');
+            container.innerHTML = '';
+            
+            if (items.length === 0) {
+                container.innerHTML = '<p style="text-align:center; grid-column:1/-1; color: #94a3b8;">No items to display here.</p>';
+                return;
+            }
+
+            items.forEach(item => {
+                const isFav = favorites.some(f => f.title === item.title);
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div>
+                        <div class="card-header">
+                            <div class="card-title">${item.title}</div>
+                            <div class="card-stars">⭐ ${item.stars}</div>
+                        </div>
+                        <div class="card-desc">${item.description}</div>
+                        <div style="font-size:0.75rem; color:#a855f7; margin-bottom: 1rem;"># ${item.why_interesting}</div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-small btn-fav ${isFav ? 'active' : ''}" onclick='toggleFavorite(${JSON.stringify(item).replace(/'/g, "&#39;")}, this)'>
+                            ${isFav ? '⭐ Saved' : '☆ Favorite'}
+                        </button>
+                        <button class="btn-small" style="background: rgba(129, 140, 248, 0.2); border-color:#818cf8; color:#818cf8;" 
+                                onclick="openDeepDive('${item.title}', '${item.link}', '${item.description.replace(/'/g, "\\'")}')">
+                            Deep Dive 🔍
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Favorites Logic
+        function toggleFavorite(item, btnElement) {
+            const index = favorites.findIndex(f => f.title === item.title);
+            if (index > -1) {
+                favorites.splice(index, 1);
+                btnElement.classList.remove('active');
+                btnElement.innerHTML = '☆ Favorite';
+            } else {
+                favorites.push(item);
+                btnElement.classList.add('active');
+                btnElement.innerHTML = '⭐ Saved';
+            }
+            localStorage.setItem('treecloud_favs', JSON.stringify(favorites));
+            
+            // If we are currently on the favorites tab, re-render to remove it instantly
+            const activeTab = document.querySelector('.tab.active').innerText;
+            if (activeTab.includes('Favorites')) {
+                renderCards(favorites);
+            }
+        }
+
+        // Tab Navigation
+        function switchTab(tabId, tabElement) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            tabElement.classList.add('active');
+
+            if (tabId === 'feed') {
+                init(); // Reload from JSON
+            } else if (tabId === 'favorites') {
+                renderCards(favorites);
+            } else if (tabId === 'search') {
+                renderCards(currentData); // Uses latest search state
+            }
+        }
+
+        // Modal Logic
+        function openDeepDive(title, url, description) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDesc').innerText = description;
+            document.getElementById('modalLink').href = url;
+            
+            const prompt = `Antigravity, please review this repository for me: ${url}\n\nWalk me through how it works, what makes it special, and provide a step-by-step guide on how I can interact with it.`;
+            document.getElementById('promptText').innerText = prompt;
+            
+            document.getElementById('deepDiveModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('deepDiveModal').style.display = 'none';
+        }
+
+        function copyPrompt() {
+            const text = document.getElementById('promptText').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Prompt copied! Paste it into your chat with Antigravity.");
+            });
+        }
+
+        // Start
+        init();
     </script>
 </body>
 </html>
