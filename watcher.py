@@ -1,6 +1,6 @@
 import requests
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 import argparse
 from dotenv import load_dotenv
@@ -16,6 +16,8 @@ load_dotenv()
 # Configuration
 DATA_FILE = "data.json"
 INTERESTS_FILE = "interests.json"
+CACHE_FILE = ".cache/watcher_cache.json"
+CACHE_TTL_SECONDS = 3600  # 1 hour default
 
 def get_interests():
     """Reads the user's interests from the config file."""
@@ -28,6 +30,50 @@ def get_interests():
     except Exception as e:
         print(f"❌ Error reading interests: {e}")
         return ["Python Automation"]
+
+
+def load_cache():
+    """Load the API response cache from disk."""
+    if not os.path.exists(CACHE_FILE):
+        return {}
+    try:
+        with open(CACHE_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (json.JSONDecodeError, Exception):
+        return {}
+
+
+def save_cache(cache):
+    """Save the API response cache to disk."""
+    os.makedirs(os.path.dirname(CACHE_FILE), exist_ok=True)
+    with open(CACHE_FILE, "w", encoding="utf-8") as f:
+        json.dump(cache, f, indent=2)
+
+
+def get_cached_results(interest, ttl_seconds):
+    """Return cached results for an interest if still fresh, else None."""
+    cache = load_cache()
+    entry = cache.get(interest)
+    if not entry:
+        return None
+    cached_at = entry.get("cached_at")
+    if not cached_at:
+        return None
+    age = datetime.now() - datetime.fromisoformat(cached_at)
+    if age < timedelta(seconds=ttl_seconds):
+        print(f"  📦 Cache hit for '{interest}' ({age.seconds}s old)")
+        return entry.get("results")
+    return None
+
+
+def set_cached_results(interest, results):
+    """Store results for an interest in the cache."""
+    cache = load_cache()
+    cache[interest] = {
+        "results": results,
+        "cached_at": datetime.now().isoformat()
+    }
+    save_cache(cache)
 
 def track_if_enabled(func):
     if opik_enabled:
@@ -102,6 +148,9 @@ def deep_index_repo(repo_full_name, pi_client, repos_dir):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--deep-index", action="store_true", help="Run PageIndex on fetched repos")
+    parser.add_argument("--no-cache", action="store_true", help="Bypass cache and fetch fresh results from GitHub")
+    parser.add_argument("--cache-ttl", type=int, default=CACHE_TTL_SECONDS,
+                        help=f"Cache TTL in seconds (default: {CACHE_TTL_SECONDS})")
     args = parser.parse_args()
 
     pi_client = None
@@ -130,9 +179,16 @@ def main():
 
     interests = get_interests()
     all_data = []
-    
+
     for interest in interests:
+        if not args.no_cache:
+            repos = get_cached_results(interest, args.cache_ttl)
+            if repos is not None:
+                all_data.extend(repos)
+                continue
         repos = fetch_repos_for_interest(interest)
+        if repos and not args.no_cache:
+            set_cached_results(interest, repos)
         all_data.extend(repos)
         
     if all_data:

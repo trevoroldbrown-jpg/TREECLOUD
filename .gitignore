@@ -1,6 +1,10 @@
 .env
 server.log
-.claude/
+.claude/*
+!.claude/skills/
+!.claude/skills/**
+!.claude/settings.json
+.cache/
 __pycache__/
 *.pyc
 .venv/
