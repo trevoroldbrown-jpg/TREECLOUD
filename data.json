@@ -1,11 +1,11 @@
 {
-    "last_updated": "2026-05-11T11:46:09.987115",
+    "last_updated": "2026-05-11T11:49:37.421806",
     "items": [
         {
             "title": "Significant-Gravitas/AutoGPT",
             "link": "https://github.com/Significant-Gravitas/AutoGPT",
             "description": "AutoGPT is the vision of accessible AI for everyone, to use and to build on. Our mission is to provide the tools, so that you can focus on what matters.",
-            "stars": "184165",
+            "stars": "184164",
             "why_interesting": "Top matched for 'AI Agents'",
             "source": "GitHub Search API"
         },
@@ -13,7 +13,7 @@
             "title": "langflow-ai/langflow",
             "link": "https://github.com/langflow-ai/langflow",
             "description": "Langflow is a powerful tool for building and deploying AI-powered agents and workflows.",
-            "stars": "147956",
+            "stars": "147955",
             "why_interesting": "Top matched for 'AI Agents'",
             "source": "GitHub Search API"
         },
@@ -21,8 +21,56 @@
             "title": "NousResearch/hermes-agent",
             "link": "https://github.com/NousResearch/hermes-agent",
             "description": "The agent that grows with you",
-            "stars": "143676",
+            "stars": "143685",
             "why_interesting": "Top matched for 'AI Agents'",
+            "source": "GitHub Search API"
+        },
+        {
+            "title": "n8n-io/n8n",
+            "link": "https://github.com/n8n-io/n8n",
+            "description": "Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations.",
+            "stars": "187421",
+            "why_interesting": "Top matched for 'Automation Workflows'",
+            "source": "GitHub Search API"
+        },
+        {
+            "title": "langgenius/dify",
+            "link": "https://github.com/langgenius/dify",
+            "description": "Production-ready platform for agentic workflow development.",
+            "stars": "140926",
+            "why_interesting": "Top matched for 'Automation Workflows'",
+            "source": "GitHub Search API"
+        },
+        {
+            "title": "ComposioHQ/awesome-claude-skills",
+            "link": "https://github.com/ComposioHQ/awesome-claude-skills",
+            "description": "A curated list of awesome Claude Skills, resources, and tools for customizing Claude AI workflows",
+            "stars": "59196",
+            "why_interesting": "Top matched for 'Automation Workflows'",
+            "source": "GitHub Search API"
+        },
+        {
+            "title": "firecrawl/firecrawl",
+            "link": "https://github.com/firecrawl/firecrawl",
+            "description": "\ud83d\udd25 The API to search, scrape, and interact with the web for AI",
+            "stars": "118172",
+            "why_interesting": "Top matched for 'Web Scraping'",
+            "source": "GitHub Search API"
+        },
+        {
+            "title": "scrapy/scrapy",
+            "link": "https://github.com/scrapy/scrapy",
+            "description": "Scrapy, a fast high-level web crawling & scraping framework for Python.",
+            "stars": "61617",
+            "why_interesting": "Top matched for 'Web Scraping'",
+            "source": "GitHub Search API"
+        },
+        {
+            "title": "soimort/you-get",
+            "link": "https://github.com/soimort/you-get",
+            "description": ":arrow_double_down: Dumb downloader that scrapes the web",
+            "stars": "56851",
+            "why_interesting": "Top matched for 'Web Scraping'",
             "source": "GitHub Search API"
         }
     ]
