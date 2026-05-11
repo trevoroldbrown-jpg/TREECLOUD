@@ -28,6 +28,9 @@ jobs:
       - name: Run Watcher Agent
         run: python watcher.py
 
+      - name: Run Debugging Agent
+        run: python debug_agent.py
+
       - name: Commit and Push Results
         run: |
           git config --local user.email "action@github.com"

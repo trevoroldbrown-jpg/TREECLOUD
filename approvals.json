@@ -1,0 +1,47 @@
+[
+    {
+        "title": "Q00 / ouroboros",
+        "link": "https://github.com/Q00/ouroboros",
+        "description": "Agent OS: Stop prompting. Start specifying.",
+        "stars": "3,784",
+        "why_interesting": "Agentic Architecture",
+        "source": "GitHub Trending (Python)",
+        "processed": true
+    },
+    {
+        "title": "VectifyAI / PageIndex",
+        "link": "https://github.com/VectifyAI/PageIndex",
+        "description": "\ud83d\udcd1 PageIndex: Document Index for Vectorless, Reasoning-based RAG",
+        "stars": "30,232",
+        "why_interesting": "Trending Community Choice",
+        "source": "GitHub Trending (Python)",
+        "processed": true
+    },
+    {
+        "title": "cocoindex-io / cocoindex",
+        "link": "https://github.com/cocoindex-io/cocoindex",
+        "description": "Incremental engine for long horizon agents \ud83c\udf1f Star if you like it!",
+        "stars": "9,260",
+        "why_interesting": "Agentic Architecture",
+        "source": "GitHub Trending (Python)",
+        "processed": true
+    },
+    {
+        "title": "ComposioHQ / awesome-codex-skills",
+        "link": "https://github.com/ComposioHQ/awesome-codex-skills",
+        "description": "A curated list of practical Codex skills for automating workflows across the Codex CLI and API.",
+        "stars": "7,768",
+        "why_interesting": "Agentic Architecture",
+        "source": "GitHub Trending (Python)",
+        "processed": true
+    },
+    {
+        "title": "kyutai-labs / pocket-tts",
+        "link": "https://github.com/kyutai-labs/pocket-tts",
+        "description": "A TTS that fits in your CPU (and pocket)",
+        "stars": "4,269",
+        "why_interesting": "Trending Community Choice",
+        "source": "GitHub Trending (Python)",
+        "processed": true
+    }
+]

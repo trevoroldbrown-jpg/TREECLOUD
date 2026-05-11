@@ -132,6 +132,109 @@
             border-color: #818cf8;
         }
 
+        /* TINDER UI (Discovery Mode) */
+        .discovery-container {
+            display: none;
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            height: 600px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+
+        .card-stack {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .tinder-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #1e293b;
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            cursor: grab;
+            user-select: none;
+            backface-visibility: hidden;
+        }
+
+        .tinder-card:active {
+            cursor: grabbing;
+        }
+
+        .tinder-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #818cf8, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .tinder-card p {
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .tinder-controls {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .tinder-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tinder-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .tinder-btn.dislike:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        .tinder-btn.like:hover {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: #22c55e;
+            color: #22c55e;
+        }
+
+        .tinder-btn.spark:hover {
+            background: rgba(236, 72, 153, 0.2);
+            border-color: #ec4899;
+            color: #ec4899;
+        }
+
         /* GRID & CARDS */
         .data-grid {
             display: grid;
@@ -187,6 +290,8 @@
             line-height: 1.5;
             margin-bottom: 1.5rem;
             flex-grow: 1;
+            word-break: break-word;
+            overflow-wrap: anywhere;
         }
 
         .card-actions {
@@ -286,18 +391,88 @@
             cursor: pointer;
         }
 
+        /* VAULT STYLES */
+        .vault-panel {
+            background: var(--panel-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .vault-upload-area {
+            border: 2px dashed rgba(129, 140, 248, 0.4);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+        }
+        
+        .vault-upload-area:hover {
+            border-color: #818cf8;
+            background: rgba(129, 140, 248, 0.05);
+        }
+
+        .vault-log {
+            background: rgba(0,0,0,0.4);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            color: white;
+            outline: none;
+            margin-bottom: 1rem;
+        }
+
     </style>
 </head>
 <body>
 
     <div class="container">
+        </div>
+
         <div class="header">
             <h1>Treecloud Hub</h1>
             <p style="color: #94a3b8;">Discover, save, and analyze the world's best open-source projects.</p>
             
+            <div id="feed-meta" style="margin-top:0.75rem; font-size:0.8rem; color:#64748b; display:flex; align-items:center; justify-content:center; gap:1rem;">
+                <span id="last-updated-label">Loading feed info...</span>
+                <button id="refresh-btn" onclick="refreshFeed()" style="background: rgba(99,102,241,0.15); border:1px solid rgba(129,140,248,0.4); color:#818cf8; padding:0.3rem 0.8rem; border-radius:0.5rem; cursor:pointer; font-size:0.8rem; transition:all 0.2s;" onmouseover="this.style.background='rgba(99,102,241,0.3)'" onmouseout="this.style.background='rgba(99,102,241,0.15)'">⟳ Refresh Feed</button>
+            </div>
+
+            <div id="interests-panel" style="margin-top:1.5rem; max-width:600px; margin-left:auto; margin-right:auto;">
+                <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
+                    <span style="font-size:0.8rem; color:#94a3b8;">Your Interests (shape your feed):</span>
+                </div>
+                <div id="interest-tags" style="display:flex; flex-wrap:wrap; gap:0.4rem; justify-content:center;"></div>
+                <div style="display:flex; gap:0.5rem; margin-top:0.75rem; justify-content:center;">
+                    <input id="new-interest-input" type="text" placeholder="Add interest (e.g. Vector Databases)" 
+                           style="padding:0.4rem 0.8rem; border-radius:0.5rem; border:1px solid rgba(129,140,248,0.3); background:rgba(15,23,42,0.6); color:white; font-size:0.8rem; outline:none; width:240px;"
+                           onkeyup="if(event.key==='Enter') addInterest()">
+                    <button onclick="addInterest()" style="background:rgba(168,85,247,0.2); border:1px solid #a855f7; color:#a855f7; padding:0.4rem 0.8rem; border-radius:0.5rem; cursor:pointer; font-size:0.8rem;">+ Add</button>
+                </div>
+            </div>
+
             <div class="search-box">
-                <input type="text" id="searchInput" class="search-input" placeholder="Search GitHub (e.g. 'React Agents')...">
-                <button class="btn btn-primary" onclick="performLiveSearch()">Search Live</button>
+                <input type="text" id="searchInput" class="search-input" 
+                       placeholder="Search... (Enter for Local, Button for Live)"
+                       onkeyup="if(event.key === 'Enter') performLocalSearch()">
+                <button class="btn btn-primary" onclick="performLiveSearch()">Search Live 🌐</button>
             </div>
         </div>
 
@@ -305,10 +480,22 @@
             <div class="tab active" onclick="switchTab('feed', this)">Curated Feed</div>
             <div class="tab" onclick="switchTab('favorites', this)">My Favorites ⭐</div>
             <div class="tab" id="search-tab" style="display: none;" onclick="switchTab('search', this)">Search Results</div>
+            <div class="tab" onclick="switchTab('discovery', this)">Discovery Mode 🔥</div>
         </div>
 
         <div id="data-container" class="data-grid">
             <!-- Cards injected here -->
+        </div>
+
+        <div id="discovery-container" class="discovery-container">
+            <div id="card-stack" class="card-stack">
+                <!-- Tinder cards injected here -->
+            </div>
+            <div class="tinder-controls">
+                <button class="tinder-btn dislike" onclick="swipe('left')">✖</button>
+                <button class="tinder-btn spark" onclick="sparkDiscovery()">⚡</button>
+                <button class="tinder-btn like" onclick="swipe('right')">❤</button>
+            </div>
         </div>
     </div>
 
@@ -328,7 +515,7 @@
             </div>
 
             <h3 style="color:#94a3b8; margin-bottom: 1rem;">Repository Status:</h3>
-            <p id="modalDesc" style="color: #cbd5e1; line-height: 1.6;"></p>
+            <p id="modalDesc" style="color: #cbd5e1; line-height: 1.6; word-break: break-word; overflow-wrap: anywhere;"></p>
             <br>
             <a id="modalLink" href="#" target="_blank" style="color: #818cf8;">View Full Repository on GitHub →</a>
         </div>
@@ -336,8 +523,11 @@
 
     <script>
         // State
-        let currentData = [];
+        let curatedData = []; // Store original curated feed
+        let currentResults = []; // Currently displayed items
         let favorites = JSON.parse(localStorage.getItem('treecloud_favs')) || [];
+        let seenDiscoveryTitles = new Set(); // Track seen cards in Discovery mode
+        let userInterests = []; // Cached interests from backend
 
         // Initialization
         async function init() {
@@ -346,13 +536,118 @@
                 const response = await fetch('data.json?t=' + new Date().getTime());
                 if (response.ok) {
                     const data = await response.json();
-                    currentData = data.items;
-                    renderCards(currentData);
+                    curatedData = data.items;
+                    currentResults = curatedData;
+                    renderCards(currentResults);
+                    // Show last updated
+                    if (data.last_updated) {
+                        const d = new Date(data.last_updated);
+                        document.getElementById('last-updated-label').textContent = 
+                            `Feed last updated: ${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;
+                    }
                 } else {
                     document.getElementById('data-container').innerHTML = '<p style="text-align:center; grid-column:1/-1;">Feed empty. Run the Python agent first.</p>';
                 }
             } catch (e) {
                 console.error("Error loading feed:", e);
+            }
+            // Also load interests
+            await loadInterests();
+        }
+
+        // Local Search (filters current view)
+        function performLocalSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const activeTab = document.querySelector('.tab.active').innerText.toLowerCase();
+            
+            let sourceData = [];
+            if (activeTab.includes('feed')) sourceData = curatedData;
+            else if (activeTab.includes('favorites')) sourceData = favorites;
+            else sourceData = currentResults;
+
+            const filtered = sourceData.filter(item => 
+                item.title.toLowerCase().includes(query) || 
+                item.description.toLowerCase().includes(query)
+            );
+            
+            renderCards(filtered);
+        }
+
+        // Interests Management
+        async function loadInterests() {
+            try {
+                const res = await fetch('/api/interests');
+                if (res.ok) {
+                    userInterests = await res.json();
+                    renderInterestTags();
+                }
+            } catch(e) { console.error('Failed to load interests', e); }
+        }
+
+        function renderInterestTags() {
+            const container = document.getElementById('interest-tags');
+            container.innerHTML = '';
+            userInterests.forEach((tag, i) => {
+                const chip = document.createElement('span');
+                chip.style.cssText = 'background:rgba(168,85,247,0.15); border:1px solid rgba(168,85,247,0.4); color:#c084fc; padding:0.25rem 0.6rem; border-radius:1rem; font-size:0.75rem; display:flex; align-items:center; gap:0.3rem; cursor:default;';
+                chip.innerHTML = `${tag} <button onclick="removeInterest(${i})" style="background:none;border:none;color:#f472b6;cursor:pointer;font-size:0.8rem;padding:0;line-height:1;">&times;</button>`;
+                container.appendChild(chip);
+            });
+        }
+
+        async function addInterest() {
+            const input = document.getElementById('new-interest-input');
+            const val = input.value.trim();
+            if (!val || userInterests.includes(val)) { input.value = ''; return; }
+            userInterests.push(val);
+            input.value = '';
+            await saveInterests();
+        }
+
+        async function removeInterest(index) {
+            userInterests.splice(index, 1);
+            await saveInterests();
+        }
+
+        async function saveInterests() {
+            try {
+                await fetch('/api/interests', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userInterests)
+                });
+                renderInterestTags();
+            } catch(e) { console.error('Failed to save interests', e); }
+        }
+
+        // Refresh Feed (re-runs watcher.py server-side)
+        async function refreshFeed() {
+            const btn = document.getElementById('refresh-btn');
+            const label = document.getElementById('last-updated-label');
+            btn.textContent = '⟳ Refreshing...';
+            btn.disabled = true;
+            label.textContent = 'Contacting GitHub, this may take a moment...';
+            try {
+                const res = await fetch('/api/refresh-feed', { method: 'POST' });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    btn.textContent = '✅ Done!';
+                    label.textContent = `Feed refreshed! ${data.item_count || ''} items fetched.`;
+                    setTimeout(async () => {
+                        btn.textContent = '⟳ Refresh Feed';
+                        btn.disabled = false;
+                        await init(); // Reload the feed
+                        seenDiscoveryTitles.clear(); // Reset discovery so new cards appear
+                    }, 1200);
+                } else {
+                    btn.textContent = '❌ Failed';
+                    label.textContent = `Error: ${data.message}`;
+                    setTimeout(() => { btn.textContent = '⟳ Refresh Feed'; btn.disabled = false; }, 2500);
+                }
+            } catch(e) {
+                btn.textContent = '❌ Error';
+                label.textContent = 'Could not reach backend.';
+                setTimeout(() => { btn.textContent = '⟳ Refresh Feed'; btn.disabled = false; }, 2500);
             }
         }
 
@@ -362,27 +657,37 @@
             if (!query) return;
 
             const container = document.getElementById('data-container');
-            container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">Searching GitHub live...</p>';
+            const searchBtn = document.querySelector('.btn-primary');
+            const originalBtnText = searchBtn.innerText;
+            
+            searchBtn.innerText = 'Searching...';
+            searchBtn.disabled = true;
             
             document.getElementById('search-tab').style.display = 'block';
             switchTab('search', document.getElementById('search-tab'));
 
             try {
                 const res = await fetch(`https://api.github.com/search/repositories?q=${encodeURIComponent(query)}&sort=stars&order=desc`);
+                if (!res.ok) throw new Error('GitHub API error');
+                
                 const data = await res.json();
                 
                 const searchResults = data.items.slice(0, 12).map(item => ({
                     title: item.full_name,
                     link: item.html_url,
                     description: item.description || 'No description',
-                    stars: item.stargazers_count,
+                    stars: item.stargazers_count.toLocaleString(),
                     why_interesting: "Live Search Result"
                 }));
                 
-                currentData = searchResults;
+                currentResults = searchResults;
                 renderCards(searchResults);
             } catch (e) {
-                container.innerHTML = '<p style="text-align:center; color:red; grid-column:1/-1;">Search failed. Rate limit exceeded or offline.</p>';
+                console.error(e);
+                container.innerHTML = `<p style="text-align:center; color:#f472b6; grid-column:1/-1;">Search failed: ${e.message}. Rate limit exceeded or offline.</p>`;
+            } finally {
+                searchBtn.innerText = originalBtnText;
+                searchBtn.disabled = false;
             }
         }
 
@@ -400,6 +705,13 @@
                 const isFav = favorites.some(f => f.title === item.title);
                 const card = document.createElement('div');
                 card.className = 'card';
+                
+                // Escape strings for HTML attributes
+                const escapedTitle = item.title.replace(/'/g, "\\'");
+                const escapedLink = item.link;
+                const escapedDesc = item.description.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+                const itemJson = JSON.stringify(item).replace(/'/g, "&#39;");
+
                 card.innerHTML = `
                     <div>
                         <div class="card-header">
@@ -410,11 +722,11 @@
                         <div style="font-size:0.75rem; color:#a855f7; margin-bottom: 1rem;"># ${item.why_interesting}</div>
                     </div>
                     <div class="card-actions">
-                        <button class="btn-small btn-fav ${isFav ? 'active' : ''}" onclick='toggleFavorite(${JSON.stringify(item).replace(/'/g, "&#39;")}, this)'>
-                            ${isFav ? '⭐ Saved' : '☆ Favorite'}
+                        <button class="btn-small btn-fav" onclick='sparkIdea(${itemJson}, this)' style="background: rgba(236, 72, 153, 0.2); border-color:#ec4899; color:#ec4899;">
+                            Spark Idea ⚡
                         </button>
                         <button class="btn-small" style="background: rgba(129, 140, 248, 0.2); border-color:#818cf8; color:#818cf8;" 
-                                onclick="openDeepDive('${item.title}', '${item.link}', '${item.description.replace(/'/g, "\\'")}')">
+                                onclick="openDeepDive('${escapedTitle}', '${escapedLink}', '${escapedDesc}')">
                             Deep Dive 🔍
                         </button>
                     </div>
@@ -423,24 +735,32 @@
             });
         }
 
-        // Favorites Logic
-        function toggleFavorite(item, btnElement) {
-            const index = favorites.findIndex(f => f.title === item.title);
-            if (index > -1) {
-                favorites.splice(index, 1);
-                btnElement.classList.remove('active');
-                btnElement.innerHTML = '☆ Favorite';
-            } else {
-                favorites.push(item);
-                btnElement.classList.add('active');
-                btnElement.innerHTML = '⭐ Saved';
-            }
-            localStorage.setItem('treecloud_favs', JSON.stringify(favorites));
+        // Spark Idea Logic
+        async function sparkIdea(item, btnElement) {
+            btnElement.innerText = "Sparking...";
+            btnElement.disabled = true;
             
-            // If we are currently on the favorites tab, re-render to remove it instantly
-            const activeTab = document.querySelector('.tab.active').innerText;
-            if (activeTab.includes('Favorites')) {
-                renderCards(favorites);
+            try {
+                const response = await fetch('/api/spark', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(item)
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === "success" || result.status === "already_exists") {
+                    btnElement.innerText = "⚡ Sparked!";
+                    btnElement.style.background = "rgba(168, 85, 247, 0.3)";
+                    btnElement.style.borderColor = "#a855f7";
+                    btnElement.style.color = "white";
+                }
+            } catch (e) {
+                console.error("Error sparking idea:", e);
+                btnElement.innerText = "Error!";
+                btnElement.disabled = false;
             }
         }
 
@@ -449,12 +769,177 @@
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             tabElement.classList.add('active');
 
+            const dataContainer = document.getElementById('data-container');
+            const discoveryContainer = document.getElementById('discovery-container');
+            const vaultContainer = document.getElementById('vault-container');
+
+            dataContainer.style.display = 'none';
+            discoveryContainer.style.display = 'none';
+            vaultContainer.style.display = 'none';
+
+            if (tabId === 'vault') {
+                vaultContainer.style.display = 'block';
+                return;
+            } else if (tabId === 'discovery') {
+                discoveryContainer.style.display = 'block';
+                renderDiscoveryStack();
+                return;
+            } else {
+                dataContainer.style.display = 'grid';
+            }
+
             if (tabId === 'feed') {
                 init(); // Reload from JSON
             } else if (tabId === 'favorites') {
                 renderCards(favorites);
             } else if (tabId === 'search') {
-                renderCards(currentData); // Uses latest search state
+                renderCards(currentResults); // Uses latest search state
+            }
+        }
+
+        // Discovery Mode (Tinder) Logic
+        let discoveryStack = [];
+        let discoveryFetching = false;
+
+        function renderDiscoveryStack() {
+            const stack = document.getElementById('card-stack');
+            stack.innerHTML = '';
+            
+            // Filter out already-seen cards
+            const unseenItems = curatedData.filter(item => !seenDiscoveryTitles.has(item.title));
+            discoveryStack = [...unseenItems].reverse(); // Stack top is end of array
+            
+            if (discoveryStack.length === 0) {
+                // All local cards exhausted — fetch fresh ones from GitHub
+                fetchDiscoveryBatch();
+                return;
+            }
+
+            discoveryStack.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'tinder-card';
+                card.style.zIndex = index;
+                card.innerHTML = `
+                    <h2>${item.title}</h2>
+                    <p>${item.description}</p>
+                    <div style="font-size:0.9rem; color:#a855f7;">⭐ ${item.stars} Stars</div>
+                    <div style="font-size:0.8rem; color:#94a3b8; margin-top:1rem;"># ${item.why_interesting}</div>
+                `;
+                stack.appendChild(card);
+            });
+        }
+
+        async function fetchDiscoveryBatch() {
+            if (discoveryFetching) return;
+            discoveryFetching = true;
+            const stack = document.getElementById('card-stack');
+            stack.innerHTML = '<div class="tinder-card" style="justify-content:center;"><h2 style="font-size:1.2rem;">🔍 Finding fresh repos...</h2><p style="margin-top:0.5rem;">Searching GitHub based on your interests</p></div>';
+            
+            try {
+                // Pick a random interest to search
+                const interests = userInterests.length > 0 ? userInterests : ['AI Agents'];
+                const interest = interests[Math.floor(Math.random() * interests.length)];
+                
+                const res = await fetch(`https://api.github.com/search/repositories?q=${encodeURIComponent(interest)}&sort=stars&order=desc&per_page=20`);
+                if (!res.ok) throw new Error('GitHub API error');
+                const data = await res.json();
+                
+                const freshItems = data.items
+                    .map(r => ({
+                        title: r.full_name,
+                        link: r.html_url,
+                        description: r.description || 'No description provided.',
+                        stars: r.stargazers_count.toLocaleString(),
+                        why_interesting: `Matched your interest: ${interest}`,
+                        source: 'GitHub Live'
+                    }))
+                    .filter(item => !seenDiscoveryTitles.has(item.title));
+                
+                if (freshItems.length === 0) {
+                    stack.innerHTML = '<div class="tinder-card"><h2>All Caught Up!</h2><p>No new repos found right now. Try adding more interests or refreshing the feed.</p></div>';
+                    return;
+                }
+                
+                // Add to discovery pool (not curatedData)
+                discoveryStack = [...freshItems].reverse();
+                stack.innerHTML = '';
+                discoveryStack.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'tinder-card';
+                    card.style.zIndex = index;
+                    card.innerHTML = `
+                        <h2>${item.title}</h2>
+                        <p>${item.description}</p>
+                        <div style="font-size:0.9rem; color:#a855f7;">⭐ ${item.stars} Stars</div>
+                        <div style="font-size:0.8rem; color:#94a3b8; margin-top:1rem;"># ${item.why_interesting}</div>
+                    `;
+                    stack.appendChild(card);
+                });
+            } catch(e) {
+                stack.innerHTML = '<div class="tinder-card"><h2>GitHub Unavailable</h2><p>Rate limited or offline. Try again in a moment.</p></div>';
+            } finally {
+                discoveryFetching = false;
+            }
+        }
+
+        function swipe(direction) {
+            const stack = document.getElementById('card-stack');
+            const cards = stack.getElementsByClassName('tinder-card');
+            if (cards.length === 0) return;
+
+            const topCard = cards[cards.length - 1];
+            const item = discoveryStack.pop();
+            
+            // Mark as seen so we don't repeat it
+            if (item) seenDiscoveryTitles.add(item.title);
+
+            if (direction === 'right') {
+                topCard.style.transform = 'translateX(200%) rotate(30deg)';
+                topCard.style.opacity = '0';
+                if (item) addToFavorites(item);
+            } else {
+                topCard.style.transform = 'translateX(-200%) rotate(-30deg)';
+                topCard.style.opacity = '0';
+            }
+
+            setTimeout(() => {
+                topCard.remove();
+                if (cards.length === 0) fetchDiscoveryBatch(); // Fetch fresh batch, not loop
+            }, 500);
+        }
+
+        function addToFavorites(item) {
+            if (!favorites.some(f => f.title === item.title)) {
+                favorites.push(item);
+                localStorage.setItem('treecloud_favs', JSON.stringify(favorites));
+            }
+        }
+
+        async function sparkDiscovery() {
+            const cards = document.getElementById('card-stack').getElementsByClassName('tinder-card');
+            if (cards.length === 0) return;
+            
+            const item = discoveryStack[discoveryStack.length - 1];
+            const btn = document.querySelector('.tinder-btn.spark');
+            const originalText = btn.innerText;
+            
+            btn.innerText = "⏳";
+            
+            try {
+                const res = await fetch('/api/spark', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(item)
+                });
+                const data = await res.json();
+                if (data.status === "success" || data.status === "already_exists") {
+                    btn.innerText = "✅";
+                    setTimeout(() => btn.innerText = originalText, 1000);
+                    swipe('right'); // Sparking automatically "Likes" and swipes
+                }
+            } catch (e) {
+                btn.innerText = "❌";
+                setTimeout(() => btn.innerText = originalText, 1000);
             }
         }
 
